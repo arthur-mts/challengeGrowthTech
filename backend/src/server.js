@@ -2,40 +2,21 @@ const express = require('express');
 
 const cors = require('cors');
 
+const DataService = require('./services/DataService');
+
+const routes = require('./routes');
+
 const app = express();
-
-const usersRepository = require('./database/users.json');
-
-const postsRepository = require('./database/posts.json');
 
 app.use(express.json());
 
 app.use(cors());
 
-app.get('/users/:group/posts',(req, res) => {
-  const { group } = req.params;
-  
-  const posts = [];
+app.use(routes);
 
-  usersRepository.forEach((user)=> {
-    const groups = user.company.bs.split(' ');
-    if(groups.includes(group)){
-      posts.push(
-        {
-          userName: `${user.name}`,
-          companyName: `${user.company.name}`,
-          posts:  postsRepository.filter((post)=>{
-            if(post.userId == user.id)
-              return post
-          })
-      });
-    }
-  });
+app.use((err, req, res, next) => res.status(400).json({ message: err.message }));
 
-  return res.json(posts);
-
-});
-
-app.listen(3333, ()=>{
+app.listen(3333, () => {
   console.log('Server on!');
+  DataService.updateDatabase();
 });
