@@ -2,8 +2,6 @@ import React, { Component } from "react";
 
 import './style.css';
 
-import userLogo from '../../assets/user.png';
-
 interface IPost {
     body: string;
     id: number;
@@ -11,10 +9,15 @@ interface IPost {
     userId: number;
 }
 
+interface IUserPost {
+    company: string;
+    userName: string;
+    post: IPost;
+}
+
 
 interface IProps {
-    post: IPost;
-    userName: string;
+    userPost: IUserPost;
 }
 
 export default class Post extends Component<IProps>{
@@ -23,18 +26,18 @@ export default class Post extends Component<IProps>{
         return (
             <li>
                 <div className="postHeader">
-                    <div className="userIcon">{this.props.userName.split(' ').map((e) => e.charAt(0))}</div>
+                    <div className="userIcon">{this.props.userPost.userName.split(' ').map((e) => e.charAt(0))}</div>
                     <div className="postInfo">
                         <h3>
-                            {this.props.post.title}
+                            {this.props.userPost.post.title}
                         </h3>
                         <p className="username">
-                            {this.props.userName}
+                            {this.props.userPost.userName}  (at {this.props.userPost.company})
                         </p>
                     </div>
                 </div>
                 <p>
-                    {this.props.post.body}
+                    {this.props.userPost.post.body}
                 </p>
             </li>
         )

@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import React, { Component } from 'react';
 import Post from './components/Posts';
 
 interface IPost {
@@ -8,16 +8,16 @@ interface IPost {
   userId: number;
 }
 
-interface UserPosts {
-  companyName: string;
+interface IUserPost {
+  company: string;
   userName: string;
-  posts: Array<IPost>;
+  post: IPost;
 }
 
 interface IState {
   text: string;
-  posts: Array<UserPosts>;
-  error: boolean;
+  posts: Array<IUserPost>;
+  error: string | null;
 }
 
 interface IProps {
@@ -29,7 +29,7 @@ export default class App extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      error: false,
+      error: null,
       text: '',
       posts: []
     };
@@ -45,15 +45,17 @@ export default class App extends Component<IProps, IState> {
     e.preventDefault();
 
 
-    fetch(`http://localhost:3333/users/${this.state.text || 'default'}/posts`)
+    fetch(`http://localhost:3333/posts/group/${this.state.text || 'default'}`)
       .then(response => response.json()
-        .then((data: Array<UserPosts>) => {
+        .then((data: Array<IUserPost>) => {
           this.setState({ posts: data });
           if (!data.length) {
-            this.setState({ error: true });
+            this.setState({ error: 'Nenhum post encontrado' });
           }
         })
-      );
+      ).catch(err => {
+        this.setState({ error: 'Erro na conexão' })
+      });
   }
 
   render() {
@@ -67,21 +69,19 @@ export default class App extends Component<IProps, IState> {
           <div className="content">
             <ul>
               {
-                this.state.posts.map((item) => {
+                this.state.posts.map((post) => {
+
                   return (
-                    item.posts.map(post => {
-                      return (
-                        <Post userName={item.userName} post={post} />
-                      )
-                    })
+                    <Post userPost={post} />
                   )
+
                 })
               }
             </ul>
           </div>) :
           this.state.error ?
             (
-              <span className="error"> Posts não encontrados!</span>
+              <span className="error"> {this.state.error}</span>
             )
             :
             (

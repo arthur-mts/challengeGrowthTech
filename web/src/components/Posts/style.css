@@ -1,5 +1,5 @@
 li {
-    padding-bottom: 20px;
+    padding-bottom: 1.5rem;
 }
 
 li :last-child {
@@ -10,11 +10,8 @@ li :last-child {
     
 }
 .postInfo{
-    
-    align-items: center;
-    
-    margin: auto 12px;
-    
+    margin: auto 1rem;
+    max-width: 70%;
 }
 
 .postHeader{
@@ -23,13 +20,11 @@ li :last-child {
 }
 
 .userIcon {
-    display: block;
-    height: 50px;
-    width: 50px;
-    line-height: 50px;
+    height: 3rem;
+    width: 3rem;
+    line-height: 3rem;
     -moz-border-radius:25px; /* or 50% */
     border-radius: 251px; /* or 50% */
-
     background-color: #657786;
     color: white;
     text-align: center;
