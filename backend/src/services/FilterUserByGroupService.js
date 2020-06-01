@@ -1,5 +1,5 @@
 function execute(users, group) {
-  return users.filter((user) => {
+  const usersInGroup = users.filter((user) => {
     let userCompany = user.company.name.toLowerCase();
 
     if (userCompany.includes(' ')) userCompany = userCompany.split(' ');
@@ -7,6 +7,8 @@ function execute(users, group) {
 
     return userCompany.includes(group.toLowerCase());
   });
+
+  return usersInGroup;
 }
 
 module.exports = execute;

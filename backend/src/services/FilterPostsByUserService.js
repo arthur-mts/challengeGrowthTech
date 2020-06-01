@@ -1,9 +1,7 @@
 function execute(posts, user) {
-  const postsByUser = [];
-
-  posts.forEach((post) => {
+  const postsByUser = posts.reduce((postArr, post) => {
     if (post.userId === user.id) {
-      postsByUser.push(
+      postArr.push(
         {
           userName: user.name,
           company: user.company.name,
@@ -11,7 +9,8 @@ function execute(posts, user) {
         },
       );
     }
-  });
+    return postArr;
+  }, []);
 
   return postsByUser;
 }
